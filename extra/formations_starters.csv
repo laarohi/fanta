@@ -1,0 +1,258 @@
+Team Name,Player Name,Position,Ballotaggio
+Atalanta,Carnesecchi,P,No
+Atalanta,Scalvini,D,Yes
+Atalanta,Kossounou,D,Yes
+Atalanta,Hien,D,No
+Atalanta,Djimsiti,D,Yes
+Atalanta,Kolasinac,D,Yes
+Atalanta,Bellanova,D,No
+Atalanta,De Roon,C,No
+Atalanta,Ederson D.S.,C,No
+Atalanta,Zappacosta,D,Yes
+Atalanta,Zalewski,C,Yes
+Atalanta,De Ketelaere,A,No
+Atalanta,Samardzic,C,Yes
+Atalanta,Maldini,C,Yes
+Atalanta,Pasalic,C,Yes
+Atalanta,Krstovic,A,Yes
+Atalanta,Sulemana I.,C,Yes
+Bologna,Skorupski,P,No
+Bologna,Zortea,D,Yes
+Bologna,Holm,D,Yes
+Bologna,Vitik,D,No
+Bologna,Lucumì,D,No
+Bologna,Miranda J.,D,No
+Bologna,Freuler,C,No
+Bologna,Ferguson,C,No
+Bologna,Orsolini,C,No
+Bologna,Odgaard,C,Yes
+Bologna,Bernardeschi,C,Yes
+Bologna,Dominguez B.,A,Yes
+Bologna,Cambiaghi,A,Yes
+Bologna,Immobile,A,Yes
+Bologna,Castro S.,A,Yes
+Cagliari,Caprile,P,No
+Cagliari,Zappa,D,No
+Cagliari,Mina,D,No
+Cagliari,Luperto,D,No
+Cagliari,Idrissi R.,D,Yes
+Cagliari,Obert,D,Yes
+Cagliari,Adopo,C,No
+Cagliari,Prati,C,No
+Cagliari,Folorunsho,C,No
+Cagliari,Gaetano,C,Yes
+Cagliari,Kilicsoy,A,Yes
+Cagliari,Luvumbo,A,No
+Cagliari,Esposito Se.,A,No
+Como,Butez,P,No
+Como,Vojvoda,D,No
+Como,Ramon,D,No
+Como,Kempf,D,Yes
+Como,Goldaniga,D,Yes
+Como,Valle,D,Yes
+Como,Moreno Alb.,D,Yes
+Como,Da Cunha,C,Yes
+Como,Baturina,C,Yes
+Como,Perrone,C,Yes
+Como,Caqueret,C,Yes
+Como,Addai,A,Yes
+Como,Kuhn,A,Yes
+Como,Paz N.,C,No
+Como,Diao,A,No
+Como,Smolcic I.,D,No
+Cremonese,Audero,P,No
+Cremonese,Terracciano F.,D,No
+Cremonese,Baschirotto,D,No
+Cremonese,Bianchetti,D,Yes
+Cremonese,Barbieri,D,Yes
+Cremonese,Zerbin,C,No
+Cremonese,Collocolo,C,Yes
+Cremonese,Bondo,C,Yes
+Cremonese,Grassi,C,No
+Cremonese,Vandeputte,C,Yes
+Cremonese,Floriani Mussolini,D,Yes
+Cremonese,Pezzella Giu.,D,No
+Cremonese,Vazquez,C,Yes
+Cremonese,De Luca,A,Yes
+Cremonese,Sanabria,A,No
+Fiorentina,De Gea,P,No
+Fiorentina,Comuzzo,D,No
+Fiorentina,Pongracic,D,No
+Fiorentina,Ranieri L.,D,No
+Fiorentina,Dodò,D,No
+Fiorentina,Sohm,C,No
+Fiorentina,Fagioli,C,Yes
+Fiorentina,Mandragora,C,Yes
+Fiorentina,Gosens,D,No
+Fiorentina,Gudmundsson A.,C,No
+Fiorentina,Kean,A,No
+Fiorentina,Dzeko,A,No
+Genoa,Leali,P,No
+Genoa,Norton-Cuffy,D,Yes
+Genoa,Sabelli,D,Yes
+Genoa,Ostigard,D,No
+Genoa,Vasquez,D,No
+Genoa,Martin,D,No
+Genoa,Frendrup,C,No
+Genoa,Masini,C,No
+Genoa,Carboni V.,C,No
+Genoa,Stanciu,C,Yes
+Genoa,Malinovskyi,C,Yes
+Genoa,Gronbaek,C,No
+Genoa,Colombo,A,Yes
+Genoa,Vitinha O.,A,Yes
+Inter,Sommer,P,No
+Inter,Pavard,D,Yes
+Inter,Bisseck,D,Yes
+Inter,Acerbi,D,Yes
+Inter,De Vrij,D,Yes
+Inter,Bastoni,D,No
+Inter,Dumfries,D,No
+Inter,Barella,C,No
+Inter,Calhanoglu,C,No
+Inter,Sucic P.,C,Yes
+Inter,Frattesi,C,Yes
+Inter,Mkhitaryan,C,Yes
+Inter,Dimarco,D,No
+Inter,Thuram,A,No
+Inter,Martinez Jo.,P,No
+Juventus,Di Gregorio,P,No
+Juventus,Gatti,D,No
+Juventus,Bremer,D,No
+Juventus,Kalulu,D,Yes
+Juventus,Kelly L.,D,Yes
+Juventus,Joao Mario,D,No
+Juventus,Locatelli,C,Yes
+Juventus,Koopmeiners,C,Yes
+Juventus,Thuram K.,C,No
+Juventus,Cambiaso,D,No
+Juventus,Conceicao,C,No
+Juventus,Yildiz,A,No
+Juventus,David,A,No
+Lazio,Provedel,P,Yes
+Lazio,Mandas,P,Yes
+Lazio,Marusic,D,No
+Lazio,Gila,D,No
+Lazio,Romagnoli,D,Yes
+Lazio,Provstgaard,D,Yes
+Lazio,Tavares N.,D,No
+Lazio,Guendouzi,C,No
+Lazio,Rovella,C,No
+Lazio,Vecino,C,Yes
+Lazio,Dele-Bashiru,C,Yes
+Lazio,Isaksen,C,Yes
+Lazio,Cancellieri,A,Yes
+Lazio,Pedro,A,Yes
+Lazio,Castellanos,A,Yes
+Lazio,Dia,A,Yes
+Lazio,Zaccagni,C,No
+Lecce,Falcone,P,No
+Lecce,Kouassi,D,Yes
+Lecce,Veiga D.,D,Yes
+Lecce,Gaspar K.,D,No
+Lecce,Tiago Gabriel,D,No
+Lecce,Gallo,D,No
+Lecce,Coulibaly L.,C,No
+Lecce,Pierret,C,Yes
+Lecce,Ramadani,C,Yes
+Lecce,Helgason,C,Yes
+Lecce,Berisha M.,C,Yes
+Lecce,Pierotti,C,No
+Lecce,Camarda,A,No
+Lecce,Banda,A,Yes
+Lecce,Tete Morente,C,Yes
+Lecce,Sottil,C,Yes
+Napoli,Meret,P,Yes
+Napoli,Milinkovic,,Yes
+Napoli,Di Lorenzo,D,No
+Napoli,Rrahmani,D,Yes
+Napoli,Beukema,D,Yes
+Napoli,Buongiorno,D,No
+Napoli,Olivera,D,Yes
+Napoli,Gutierrez,D,Yes
+Napoli,Zambo Anguissa,C,No
+Napoli,Lobotka,C,No
+Napoli,McTominay,C,No
+Napoli,Politano,C,Yes
+Napoli,Lang,A,Yes
+Napoli,De Bruyne,C,No
+Napoli,Lucca,A,Yes
+Napoli,Lukaku,A,Yes
+Pisa,Semper,P,Yes
+Pisa,Scuffet,P,Yes
+Pisa,Calabresi,D,No
+Pisa,Caracciolo A.,D,Yes
+Pisa,Denoon,D,Yes
+Pisa,Canestrelli,D,Yes
+Pisa,Mateus Lusuardi,D,Yes
+Pisa,Tourè I.,C,No
+Pisa,Marin M.,C,Yes
+Pisa,Piccinini G.,C,Yes
+Pisa,Aebischer,C,No
+Pisa,Angori,D,No
+Pisa,Cuadrado,D,No
+Pisa,Tramoni M.,C,No
+Pisa,Tourè I.,C,No
+Roma,Svilar,P,No
+Roma,Ghilardi,D,No
+Roma,Mancini,D,No
+Roma,Ndicka,,No
+Roma,Wesley,D,No
+Roma,Konè M.,C,No
+Roma,El Aynaoui,C,No
+Roma,Angelino,D,No
+Roma,Soulè,A,No
+Roma,Dybala,A,Yes
+Roma,Bailey,C,Yes
+Roma,Ferguson E.,A,Yes
+Roma,Dovbyk,A,Yes
+Torino,Israel,P,No
+Torino,Pedersen,D,Yes
+Torino,Lazaro,D,Yes
+Torino,Coco,D,Yes
+Torino,Maripan,D,Yes
+Torino,Ismajli,D,Yes
+Torino,Masina,D,Yes
+Torino,Biraghi,D,No
+Torino,Anjorin,C,No
+Torino,Ilkhan,C,Yes
+Torino,Ilic,C,Yes
+Torino,Casadei,C,No
+Torino,Vlasic,C,Yes
+Torino,Ngonge,A,Yes
+Torino,Simeone,A,No
+Torino,Zapata D.,A,Yes
+Torino,Adams C.,A,Yes
+Udinese,Okoye,P,Yes
+Udinese,Sava,P,Yes
+Udinese,Palma,D,Yes
+Udinese,Goglichidze,D,Yes
+Udinese,Kristensen T.,D,Yes
+Udinese,Bertola,D,Yes
+Udinese,Solet,D,No
+Udinese,Ehizibue,D,No
+Udinese,Lovric,C,Yes
+Udinese,Piotrowski,C,Yes
+Udinese,Miller L.,C,Yes
+Udinese,Karlstrom,C,No
+Udinese,Atta,C,No
+Udinese,Zemura,D,Yes
+Udinese,Kamara H.,D,Yes
+Udinese,Ekkelenkamp,C,Yes
+Udinese,Bravo,A,Yes
+Udinese,Davis K.,A,No
+Verona,Montipò,P,No
+Verona,Unai Nunez,D,No
+Verona,Ebosse,D,No
+Verona,Bradaric,D,Yes
+Verona,Valentini N.,D,Yes
+Verona,Belghali,D,No
+Verona,Niasse,C,Yes
+Verona,Santiago,C,Yes
+Verona,Serdar,C,No
+Verona,Frese,D,No
+Verona,Harroui,C,Yes
+Verona,Bernede,C,Yes
+Verona,Giovane,A,Yes
+Verona,Mosquera,A,Yes
+Verona,Sarr A.,A,No

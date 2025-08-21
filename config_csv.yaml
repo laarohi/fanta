@@ -1,0 +1,38 @@
+paths:
+  roster_xlsx: "/mnt/data/Quotazioni_Fantacalcio_Stagione_2025_26.xlsx"
+  history_xlsx:
+    - "/mnt/data/Statistiche_Fantacalcio_Stagione_2024_25.xlsx"   # add prior seasons here if you want
+  csv_rigoristi: "/mnt/data/parsed_v3/rigoristi.csv"
+  csv_setpieces: "/mnt/data/parsed_v3/setpieces.csv"
+  csv_formations_starters: "/mnt/data/parsed_v2/formations_starters.csv"
+  csv_afcon: "/mnt/data/parsed_v3/afcon.csv"
+
+params:
+  recency_weights: [0.6, 0.3, 0.1]
+  start_probs: {starter: 0.85, battle: 0.65, battle3: 0.55, backup: 0.35}
+  four_back_freq: 0.85
+  afcon_default_miss: 3
+  pk_shares: [0.7, 0.2, 0.1]
+  pk_conv_default: 0.80
+  sp_assist_fraction: 0.33   # portion of team assists from set pieces (global)
+  modifier_bands:
+    - {max: 6.25, ev: 0.5}
+    - {max: 6.50, ev: 1.0}
+    - {max: 6.75, ev: 1.5}
+    - {max: 7.00, ev: 2.0}
+    - {max: 7.25, ev: 2.8}
+    - {max: 7.50, ev: 3.7}
+    - {max: 10.0, ev: 4.5}
+  replacement_cut:
+    P: 10
+    D: 43
+    C: 38
+    A: 28
+  pricing:
+    blend_fvm_weight: 0.30
+    room_bias: {P: 1.15, D: 1.00, C: 0.90, A: 1.12}
+    star_exponent: 1.05
+
+output:
+  projections_csv: "./outputs/projections.csv"
+  prices_csv: "./outputs/stop_prices.csv"
