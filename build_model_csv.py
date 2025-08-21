@@ -33,17 +33,17 @@ def ensure_cols(df, cols):
 
 def load_roster(path):
     df = pd.read_excel(path, sheet_name="Tutti", header=1)
-    colmap = {"Nome":"name", "Squadra":"team", "R":"role", "FVM":"FVM"}
+    colmap = {"Nome":"player", "Squadra":"team", "R":"role", "FVM":"FVM"}
     df = df.rename(columns={k:v for k,v in colmap.items() if k in df.columns})
     df['role'] = df['role'].map(role_letter)
-    df['name_norm'] = df['name'].map(norm_name).str.replace("/", " ", regex=False)
+    df['player_norm'] = df['player'].map(norm_name).str.replace("/", " ", regex=False)
     df['team_norm'] = df['team'].map(norm_name)
-    return df[['name','name_norm','team','team_norm','role','FVM']].copy()
+    return df[['player','player_norm','team','team_norm','role','FVM']].copy()
 
 # ------------------------ ingest: history ------------------------
 
 HIST_COLMAP = {
-    'Id':'Id','R':'role','Nome':'name','Squadra':'team','Pv':'Pv',
+    'Id':'Id','R':'role','Nome':'player','Squadra':'team','Pv':'Pv',
     'Mv':'Mv','Fm':'Fm','Gf':'G','Ass':'A','Amm':'YC','Esp':'RC','Au':'OG',
     'Gs':'GC','Rc':'PK_att','R+':'PK_scored','R-':'PK_missed','Rp':'PK_saved'
 }
@@ -51,12 +51,12 @@ HIST_COLMAP = {
 def load_history(paths):
     frames=[]
     for p in paths:
-        df = pd.read_excel(p)
+        df = pd.read_excel(p, sheet_name="Tutti", header=1)
         season = Path(p).stem
         df = df.rename(columns={k:v for k,v in HIST_COLMAP.items() if k in df.columns})
         df['season'] = season
         df['role'] = df['role'].map(role_letter)
-        df['name_norm'] = df['name'].map(norm_name).str.replace("/", " ", regex=False)
+        df['player_norm'] = df['player'].map(norm_name).str.replace("/", " ", regex=False)
         df['team_norm'] = df['team'].map(norm_name)
         frames.append(df)
     hist = pd.concat(frames, ignore_index=True)
@@ -146,7 +146,7 @@ def project_pv(roster, starters_csv, afcon_csv, params):
     merged['Pv_hat'] = 38 * merged['p_start']
     if not afcon_csv.empty:
         afcon_set = set(map(tuple, afcon_csv[['team_norm','player_norm']].values))
-        merged['AFCON_RISK'] = merged.apply(lambda r: int((r['team_norm'], r['name_norm']) in afcon_set), axis=1)
+        merged['AFCON_RISK'] = merged.apply(lambda r: int((r['team_norm'], r['player_norm']) in afcon_set), axis=1)
         merged.loc[merged['AFCON_RISK']==1, 'Pv_hat'] = (merged.loc[merged['AFCON_RISK']==1, 'Pv_hat'] - miss).clip(lower=0)
     else:
         merged['AFCON_RISK'] = 0
@@ -155,8 +155,8 @@ def project_pv(roster, starters_csv, afcon_csv, params):
 
 # ------------------------ player-level projections ------------------------
 
-def recency_player_stat(hist, name_norm, team_norm, role, col, weights, priors):
-    h = hist[(hist.name_norm==name_norm)&(hist.team_norm==team_norm)&(hist.role==role)].copy()
+def recency_player_stat(hist, player_norm, team_norm, role, col, weights, priors):
+    h = hist[(hist.player_norm==player_norm)&(hist.team_norm==team_norm)&(hist.role==role)].copy()
     if h.empty:
         if col=='Mv':
             return prior_lookup(priors, role, team_norm, 'Mv')
@@ -180,7 +180,7 @@ def add_mv_and_events(roster, hist, priors, params):
     cols = ['G','A','YC','RC','OG']
     mvh=[]; rates={c:[] for c in cols}; gc_rate=[]; pksave_rate=[]
     for _,r in roster.iterrows():
-        role=r['role']; team=r['team_norm']; nm=r['name_norm']
+        role=r['role']; team=r['team_norm']; nm=r['player_norm']
         mvh.append(recency_player_stat(hist, nm, team, role, 'Mv', W, priors))
         for c in cols:
             rates[c].append(recency_player_stat(hist, nm, team, role, c, W, priors))
@@ -218,7 +218,7 @@ def apply_pk(roster, hist, rigoristi_csv, params):
         share_map[(r['team_norm'], r['player_norm'])] = pr_shares.get(int(r['priority']), 0.0)
     PK_taken=[]; PK_goals=[]
     for _,r in roster.iterrows():
-        team = r['team_norm']; nm = r['name_norm']
+        team = r['team_norm']; nm = r['player_norm']
         team_pk = team_rc_ev.get(team, 0.0)
         share = share_map.get((team, nm), 0.0)
         pk_taken = team_pk * share * (r['Pv_hat']/38.0)
@@ -242,7 +242,7 @@ def apply_setpieces(roster, hist, sp_long, params):
         share_map[(r['team_norm'], r['player_norm'], r['category'])] = float(r['share'])
     sp_extra=[]
     for _,r in roster.iterrows():
-        team=r['team_norm']; nm=r['name_norm']
+        team=r['team_norm']; nm=r['player_norm']
         team_sp_ass = team_ass_ev.get(team, 0.0)*frac
         share_fk = share_map.get((team, nm, 'freekick'), 0.0)
         share_ck = share_map.get((team, nm, 'corner'), 0.0)
@@ -378,7 +378,7 @@ def main():
 
     # Replacement & VORP & Prices
     repl = replacement_points(proj, cfg['params'])
-    prices = compute_vorp_and_price(proj, repl, roster[['FVM']], cfg)
+    prices = compute_vorp_and_price(proj, repl, roster[['FVM']], cfg['params'])
 
     # Flags (light)
     prices['LOW_SAMPLE'] = prices['Pv_hat'] < 10
@@ -388,7 +388,7 @@ def main():
     # Save
     Path("outputs").mkdir(parents=True, exist_ok=True)
     prices.to_csv(cfg['output']['projections_csv'], index=False)
-    cols = ['name','team','role','Pts_hat','VORP','Price_final','FVM',
+    cols = ['player','team','role','Pts_hat','VORP','Price_final','FVM',
             'Pv_hat','Mv_hat','G_hat','A_hat','YC_hat','RC_hat','OG_hat','AFCON_RISK','START_TIER','Mod_share_hat']
     prices[cols].sort_values(['role','Price_final'], ascending=[True,False]).to_csv(cfg['output']['prices_csv'], index=False)
 
