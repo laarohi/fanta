@@ -29,6 +29,20 @@ def ensure_cols(df, cols):
         if c not in df.columns: df[c] = 0
     return df
 
+def load_aliases(path="alias.yaml"):
+    p = Path(path)
+    if not p.exists():
+        return {}
+    data = yaml.safe_load(p.read_text()) or {}
+    return {norm_name(k): norm_name(v) for k, v in data.items() if v}
+
+
+def apply_aliases(df, aliases):
+    if not aliases:
+        return df
+    df['player_norm'] = df['player_norm'].map(lambda s: aliases.get(s, s))
+    return df
+
 # ------------------------ ingest: roster -------------------------
 
 def load_roster(path):
@@ -91,20 +105,22 @@ def prior_lookup(priors, role, team_norm, col, fallback_role=True):
 
 # ------------------------ CSV ingestion (new schemas) ------------------------
 
-def load_rigoristi_csv(path):
+def load_rigoristi_csv(path, aliases):
     # name, team, priority (1..3)
     df = pd.read_csv(path)
     df['team_norm'] = df['team'].map(norm_name)
     df['player_norm'] = df['name'].map(norm_name).str.replace("/", " ", regex=False)
+    df = apply_aliases(df, aliases)
     # keep only valid priority
     df = df[df['priority'].isin([1,2,3])].copy()
     return df[['team_norm','player_norm','priority']]
 
-def load_setpieces_csv(path):
+def load_setpieces_csv(path, aliases):
     # name, team, role ('freekick' or 'corner')
     df = pd.read_csv(path)
     df['team_norm'] = df['team'].map(norm_name)
     df['player_norm'] = df['name'].map(norm_name).str.replace("/", " ", regex=False)
+    df = apply_aliases(df, aliases)
     df['role_sp'] = df['role'].astype(str).str.lower().str.strip()
     df = df[df['role_sp'].isin(['freekick','corner'])].drop_duplicates()
     # compute equal shares per team-role (no primary/secondary info in schema)
@@ -116,21 +132,23 @@ def load_setpieces_csv(path):
             shares.append({'team_norm': t, 'player_norm': row['player_norm'], 'category': r, 'share': sh})
     return pd.DataFrame(shares)
 
-def load_formations_starters_csv(path):
+def load_formations_starters_csv(path, aliases):
     # Team Name, Player Name, Position, Ballotaggio
     df = pd.read_csv(path)
     df = df.rename(columns={'Team Name':'team','Player Name':'player','Position':'role','Ballotaggio':'ballotaggio'})
     df['team_norm'] = df['team'].map(norm_name)
     df['player_norm'] = df['player'].map(norm_name).str.replace("/", " ", regex=False)
+    df = apply_aliases(df, aliases)
     df['role'] = df['role'].astype(str).str.upper().str[0]
     df['ballotaggio'] = df['ballotaggio'].astype(str).str.strip().str.lower().isin(['yes','y','true','1'])
     return df[['team_norm','player_norm','ballotaggio']]
 
-def load_afcon_csv(path):
+def load_afcon_csv(path, aliases):
     # name, team
     df = pd.read_csv(path)
     df['team_norm'] = df['team'].map(norm_name)
     df['player_norm'] = df['name'].map(norm_name).str.replace("/", " ", regex=False)
+    df = apply_aliases(df, aliases)
     return df[['team_norm','player_norm']].drop_duplicates()
 
 # ------------------------ appearances from formations + AFCON ------------------------
@@ -350,15 +368,16 @@ def compute_vorp_and_price(df, repl, roster_fvm, params):
 def main():
     cfg = yaml.safe_load(Path("config_csv.yaml").read_text())
 
+    aliases = load_aliases("alias.yaml")
     roster = load_roster(cfg['paths']['roster_xlsx'])
     hist = load_history(cfg['paths']['history_xlsx'])
     pri = build_priors(hist)
 
     # Load CSVs (new schemas)
-    rigoristi = load_rigoristi_csv(cfg['paths']['csv_rigoristi'])
-    setpieces_long = load_setpieces_csv(cfg['paths']['csv_setpieces'])
-    starters = load_formations_starters_csv(cfg['paths']['csv_formations_starters'])
-    afcon = load_afcon_csv(cfg['paths']['csv_afcon'])
+    rigoristi = load_rigoristi_csv(cfg['paths']['csv_rigoristi'], aliases)
+    setpieces_long = load_setpieces_csv(cfg['paths']['csv_setpieces'], aliases)
+    starters = load_formations_starters_csv(cfg['paths']['csv_formations_starters'], aliases)
+    afcon = load_afcon_csv(cfg['paths']['csv_afcon'], aliases)
 
     # Appearances from formations + AFCON
     proj = project_pv(roster, starters, afcon, cfg['params'])
