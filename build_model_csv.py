@@ -1,5 +1,5 @@
 
-import re, math, yaml, pandas as pd, numpy as np
+import argparse, re, math, yaml, pandas as pd, numpy as np
 from pathlib import Path
 import unicodedata
 
@@ -365,9 +365,7 @@ def compute_vorp_and_price(df, repl, roster_fvm, params):
 
 # ----------------------------- main -----------------------------
 
-def main():
-    cfg = yaml.safe_load(Path("config_csv.yaml").read_text())
-
+def build_projection(cfg):
     aliases = load_aliases("alias.yaml")
     roster = load_roster(cfg['paths']['roster_xlsx'])
     hist = load_history(cfg['paths']['history_xlsx'])
@@ -392,27 +390,50 @@ def main():
     # Defense modifier
     proj = apply_modifier(proj, cfg['params'])
 
+    Path("outputs").mkdir(parents=True, exist_ok=True)
+    proj.round(3).to_csv(cfg['output']['projections_csv'], index=False)
+    print("Projections →", cfg['output']['projections_csv'])
+
+
+def build_points(cfg):
+    proj_path = cfg['output']['projections_csv']
+    proj = pd.read_csv(proj_path)
+
     # Points
     proj = compute_points(proj)
 
     # Replacement & VORP & Prices
     repl = replacement_points(proj, cfg['params'])
-    prices = compute_vorp_and_price(proj, repl, roster[['FVM']], cfg['params'])
+    prices = compute_vorp_and_price(proj, repl, proj[['FVM']], cfg['params'])
 
     # Flags (light)
     prices['LOW_SAMPLE'] = prices['Pv_hat'] < 10
     prices['NEW_SERIEA'] = 0
     prices['PROMOTED_TEAM'] = 0
 
-    # Save
     Path("outputs").mkdir(parents=True, exist_ok=True)
-    prices.round(3).to_csv(cfg['output']['projections_csv'], index=False)
+    prices.round(3).to_csv(proj_path, index=False)
     cols = ['player','team','role','Pts_hat','VORP','Price_final','FVM',
             'Pv_hat','Mv_hat','G_hat','A_hat','YC_hat','RC_hat','OG_hat','AFCON_RISK','START_TIER','Mod_share_hat']
     prices[cols].sort_values(['role','Price_final'], ascending=[True,False]).round(3).to_csv(cfg['output']['prices_csv'], index=False)
 
-    print("Done. Projections →", cfg['output']['projections_csv'])
+    print("Done. Projections →", proj_path)
     print("Stop prices →", cfg['output']['prices_csv'])
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Projection and pricing pipeline")
+    parser.add_argument("--stage", choices=["projection", "points"], required=True,
+                        help="Run 'projection' to build projections.csv, then optionally edit it and run 'points' to compute prices")
+    args = parser.parse_args()
+
+    cfg = yaml.safe_load(Path("config_csv.yaml").read_text())
+
+    if args.stage == "projection":
+        build_projection(cfg)
+    else:
+        build_points(cfg)
+
 
 if __name__ == "__main__":
     main()

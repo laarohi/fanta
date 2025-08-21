@@ -5,7 +5,7 @@ A lean-but-serious projection and pricing engine for **Fantacalcio (classic)** w
 - **VORP** (Value Over Replacement Player) on a **single-tier** baseline.
 - **Auction stop-prices** calibrated to a **10,000-credit room**, with bias knobs to mirror league tendencies (overpaying GKs/ATs, underpaying CMs, etc.).
 
-> **Status:** Ready for internal use. Everything lives in a single run script (`build_model_csv.py`) with one YAML config (`config_csv.yaml`).
+> **Status:** Ready for internal use. Everything lives in a single run script (`build_model_csv.py`) with one YAML config (`config_csv.yaml`). Run it in two stages (`--stage projection` then `--stage points`) if you want to tweak projections by hand.
 
 
 ## Table of Contents
@@ -64,10 +64,15 @@ A lean-but-serious projection and pricing engine for **Fantacalcio (classic)** w
 # 1) Confirm file paths in config
 cat /mnt/data/config_csv.yaml
 
-# 2) Run the pipeline
-python /mnt/data/build_model_csv.py
+# 2) Build projections
+python /mnt/data/build_model_csv.py --stage projection
 
-# 3) Inspect outputs
+# 3) (optional) tweak `outputs/projections.csv`
+
+# 4) Compute points & prices
+python /mnt/data/build_model_csv.py --stage points
+
+# 5) Inspect outputs
 ls -lah ./outputs
 ```
 
