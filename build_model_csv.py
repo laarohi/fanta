@@ -387,10 +387,10 @@ def main():
 
     # Save
     Path("outputs").mkdir(parents=True, exist_ok=True)
-    prices.to_csv(cfg['output']['projections_csv'], index=False)
+    prices.round(3).to_csv(cfg['output']['projections_csv'], index=False)
     cols = ['player','team','role','Pts_hat','VORP','Price_final','FVM',
             'Pv_hat','Mv_hat','G_hat','A_hat','YC_hat','RC_hat','OG_hat','AFCON_RISK','START_TIER','Mod_share_hat']
-    prices[cols].sort_values(['role','Price_final'], ascending=[True,False]).to_csv(cfg['output']['prices_csv'], index=False)
+    prices[cols].sort_values(['role','Price_final'], ascending=[True,False]).round(3).to_csv(cfg['output']['prices_csv'], index=False)
 
     print("Done. Projections →", cfg['output']['projections_csv'])
     print("Stop prices →", cfg['output']['prices_csv'])
